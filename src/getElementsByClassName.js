@@ -6,39 +6,33 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
   // your code here
-  className = className.split(' ');
+  var classes = className.split(' ');
   var results = [];
 
-  var containsClass = function(nodeList){
+  var containsClass = function(nodeList, classArray){
   	count = 0;
   	for(var key in nodeList){
-  		if(className.indexOf(nodeList[key]) > -1 ){
+  		if(classArray.indexOf(nodeList[key]) > -1 ){
   			count++;
   	}
   }
+  	return (count == classArray.length);
+  };
 
-  	if(count == className.length){
-  		return true;
-  	}else {
-  		return false;
-  	}
-  }
-
- 	var checkNode = function(node){
+ 	var checkNode = function(node, classArr){
  		if(node.classList){
- 			if(containsClass(node.classList)){
+ 			if(containsClass(node.classList, classArr)){
  				results.push(node);
  			}
  		}
 
  		if(node.hasChildNodes()){
  			for(var i = 0; i < node.childNodes.length ; i++){
- 				checkNode(node.childNodes[i]);
+ 				checkNode(node.childNodes[i], classArr);
  			}
  		}
- 	}
+ 	};
 
- 	checkNode(document.body);
- 	console.log(results);
+ 	checkNode(document.body, classes);
  	return results;
 };
