@@ -7,12 +7,21 @@
 var getElementsByClassName = function(className){
   // your code here
   var result = [];
-
+  var className = className.split(' ');
   //determine if current node has class name, if so store in result
   var search = function(node){
 
-    if(node.className && node.className.split(' ').indexOf(className) > -1){
-      result.push(node);
+    var count = 0;
+    if (node.className){
+      var nodeClasses = node.className.split(' ');
+      for (var j = 0; j < nodeClasses.length; j++){
+        if (className.indexOf(nodeClasses[j]) > -1){
+          count++;
+        }
+      }
+      if (count === className.length){
+        result.push(node);
+      }
     }
     if (node.childNodes){
       for (var i = 0; i < node.childNodes.length; i++){
