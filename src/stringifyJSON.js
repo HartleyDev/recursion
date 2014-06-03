@@ -31,7 +31,9 @@ var stringifyJSON = function(obj) {
         return '{}';
       }else{
         for (var key in obj){
-          result.push('"' + key + '":' + stringifyJSON(obj[key]));
+          if (typeof obj[key] !== 'undefined' && typeof obj[key] !== 'function'){
+            result.push('"' + key + '":' + stringifyJSON(obj[key]));
+          }
         }
         return '{' + result.join(',') + '}';
       }
