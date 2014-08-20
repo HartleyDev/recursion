@@ -5,34 +5,30 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
-  // your code here
-  var classes = className.split(' ');
-  var results = [];
+  var result = [];
+  var className = className.split(' ');
+  //determine if current node has class name, if so store in result
+  var search = function(node){
 
-  var containsClass = function(nodeList, classArray){
-  	count = 0;
-  	for(var key in nodeList){
-  		if(classArray.indexOf(nodeList[key]) > -1 ){
-  			count++;
-  	}
-  }
-  	return (count == classArray.length);
+    var count = 0;
+    if (node.className){
+      var nodeClasses = node.className.split(' ');
+      for (var j = 0; j < nodeClasses.length; j++){
+        if (className.indexOf(nodeClasses[j]) > -1){
+          count++;
+        }
+      }
+      if (count === className.length){
+        result.push(node);
+      }
+    }
+    if (node.childNodes){
+      for (var i = 0; i < node.childNodes.length; i++){
+        search(node.childNodes[i]);
+      }
+    }
+
   };
-
- 	var checkNode = function(node, classArr){
- 		if(node.classList){
- 			if(containsClass(node.classList, classArr)){
- 				results.push(node);
- 			}
- 		}
-
- 		if(node.hasChildNodes()){
- 			for(var i = 0; i < node.childNodes.length ; i++){
- 				checkNode(node.childNodes[i], classArr);
- 			}
- 		}
- 	};
-
- 	checkNode(document.body, classes);
- 	return results;
+  search(document.body);
+  return result;
 };
